@@ -1,11 +1,12 @@
 * [Home](/)
 * [Video Coding](docs/video-coding/)
-* [Live Streaming](docs/live-streaming/)
+* [Streaming](docs/streaming/)
 * [Algorithm](docs/algorithm/)
 * [Programming Language](docs/programming-language/)
 * [Computer Network](docs/computer-network/)
 * [Linux](docs/linux/)
 * [AWS](docs/aws/)
 * [Others](docs/others/)
+* [一些照片](docs/photos/)
 * [随笔](docs/articles/)
 
