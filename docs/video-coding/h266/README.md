@@ -2,7 +2,7 @@
 
 
 
-## Decoder Structure
+### Decoder Structure
 
 ```c++
 DecLib::decode
@@ -39,7 +39,7 @@ DecCu::decompressCtu
 
 
 
-## Encoder Structure
+### Encoder Structure
 
 ```c++
 EncLib::encode

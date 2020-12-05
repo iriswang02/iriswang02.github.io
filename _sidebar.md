@@ -2,7 +2,10 @@
 * [Video Coding](docs/video-coding/)
 * [Live Streaming](docs/live-streaming/)
 * [Algorithm](docs/algorithm/)
-* [C++](docs/cpp/)
+* [Programming Language](docs/programming-language/)
+* [Computer Network](docs/computer-network/)
+* [Linux](docs/linux/)
 * [AWS](docs/aws/)
 * [Others](docs/others/)
+* [随笔](docs/articles/)
 
