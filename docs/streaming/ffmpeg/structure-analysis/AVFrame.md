@@ -8,7 +8,34 @@ This structure describes decoded (raw) audio or video data.
 
 - audio data: PCM...
 
-It also includes other related information, like `format`, `AVPictureType pict_type`, `coded_picture_number`, `display_picture_number`, `*qscale_table`, `*mbskip_table`, `(*motion_val[2])[2]`, `*ref_index[2]`, `interlaced_frame`.
+It also includes some necessary information, such as
+
+- `format`: Value correspond to `enum AVPixelFormat`
+
+- `AVPictureType pict_type`: I, P, B ... 
+
+- `sample_aspect_ratio`: `AVRational`
+
+- `coded_picture_number`,
+
+- `display_picture_number`,
+
+- `*qscale_table`:  used by `current_picture.qscale_table[mb_pos]`
+
+  Each mb has one QP value.
+
+  ```c
+   int mb_pos = s->mb_x + s->mb_y * s->mb_stride; 
+  /* 
+  * mb_y is the number of rows, 
+  * mb_x is the number of columns, 
+  * mb_stride is the number of mb in one row.
+  */
+  ```
+
+- `interlaced_frame`,
+
+- ...
 
 ##### Definition:
 
@@ -398,12 +425,7 @@ typedef struct AVFrame {
 } AVFrame;
 ```
 
-##### Variables:
 
-1. `data[AV_NUM_DATA_POINTERS]`:
 
-   For video, size in bytes of each picture line.
+*Appreciate the tutorial provided in https://blog.csdn.net/leixiaohua1020/article/details/15811977*
 
-   For audio, size in bytes of each plane.
-
-2. 
