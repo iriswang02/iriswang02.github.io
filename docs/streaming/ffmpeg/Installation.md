@@ -23,7 +23,12 @@ Then click `apply all changes`, and wait for installation.
 
 Go to http://yasm.tortall.net/ and look for the "Download" page.
 
-Download `Win64 VS2010.zip`,  create a copy of the .exe file in `./MinGW/msys/1.0/bin` and rename it to `yasm.exe`, so it can be invoked by using simply `yasm`.
+1. Download `Win64 VS2010.zip`,  create a copy of the .exe file in `./MinGW/msys/1.0/bin` and rename it to `yasm.exe`, so it can be invoked by using simply `yasm`.
+2. **OR** you may directly install `YASM` in `msys`. The method is the same as installation in Linux system.
+
+##### NASM
+
+Go to https://www.nasm.us/ and download the latest stable release. Copy `nasm.exe` to `./MinGW/msys/1.0/bin`.
 
 ##### SDL
 
@@ -31,7 +36,31 @@ SDL is required for ffplay and the SDL output device.
 
 Go to https://www.libsdl.org/index.php and look for the latest version.
 
-Download and copy all files in `/lib`, `/bin`, `/include`, `/share` to the corresponding directory under `./MinGW/msys/1.0`.
+1. Download and copy all files in `/lib`, `/bin`, `/include`, `/share` to the corresponding directory under `./MinGW/msys/1.0`.
+2. **OR** you may directly install `SDL` in `msys`. The method is the same as installation in Linux system.
+
+##### x264
+
+Go to http://www.videolan.org/developers/x264.html and download source code. Unzip all files in `./MinGW/msys/1.0/home/user/` and install it. The method is the same as installation in Linux system.
+
+If error `make: *** [libx264.a] Error 5` occurs:
+
+Edit the following lines in `configure`
+
+```shell
+if ${cross_prefix}gcc-ar --version >/dev/null 2>&1; then
+    #AR="${AR-${cross_prefix}gcc-ar}" - Original
+    AR="${AR-${cross_prefix}ar}"  # - Edited
+else
+    AR="${AR-${cross_prefix}ar}"
+fi
+if ${cross_prefix}gcc-ranlib --version >/dev/null 2>&1; then
+    #RANLIB="${RANLIB-${cross_prefix}gcc-ranlib}" - Original
+    RANLIB="${RANLIB-${cross_prefix}ranlib}" # - Edited
+else
+    RANLIB="${RANLIB-${cross_prefix}ranlib}"
+fi
+```
 
 ##### msys.bat
 
@@ -74,10 +103,13 @@ Navigate to the directory of ffmpeg, and run
 
 ```shell
 #1
-./configure - -enable-shared - -prefix=./vs2013_build
+./configure --enable-shared --enable-yasm --enable-libx264 --enable-gpl --enable-sdl --prefix=./vs2017_build
 #2
 make all
 #3
 make install
 ```
 
+
+
+*Don't forget to copy all `.dll` files (including `libx264-161.dll` and `SDL2.dll`) to the folder where you want to run .exe file.*
