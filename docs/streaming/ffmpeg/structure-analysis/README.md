@@ -10,18 +10,13 @@
 
    - The data described by an AVFrame is usually reference counted through the AVBuffer API.
 
-   - sizeof(AVFrame) is not a part of the public ABI, so new fields may be added to the end with a minor bump.
-
-2. AVFrameContext
-
+   - `sizeof(AVFrame)` is not a part of the public ABI, so new fields may be added to the end with a minor bump.
+2. AVFrameContext: This structure describes the format I/O context. 
+- `sizeof(AVFrameContext)` must not be used outside `libav*`, use `avformat_alloc_context()` to create an AVFormatContext.
 3. AVCondecContext
-
 4. AVIOContext
-
 5. AVCodec
-
 6. AVStream
-
 7. AVPacket
 
 
