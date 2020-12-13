@@ -6,19 +6,19 @@ This structure describes data used for muxing(`avformat_write_header()`) and dem
 
 Some main variables:
 
-`AVIOContext *pb`: Bytestream IO Context, used for reading and writing data.
+- `AVIOContext *pb`: Bytestream IO Context, used for reading and writing data.
 
-`unsigned int nb_streams`: Number of streams.
+- `unsigned int nb_streams`: Number of streams.
 
-`int64_t duration`: Duration of the stream, in AV_TIME_BASE fractional seconds. Demuxing only. Only set this value if you know none of the individual stream durations and also do not set any of them. This is deduced from the AVStream values if not set.
+- `int64_t duration`: Duration of the stream, in AV_TIME_BASE fractional seconds. Demuxing only. Only set this value if you know none of the individual stream durations and also do not set any of them. This is deduced from the AVStream values if not set.
 
-`char filename[1024]` or  `char *url`: Input or Output.
+- `char filename[1024]` or  `char *url`: Input or Output.
 
-`int64_t bit_rate`: Total stream bitrate in bit/s. 0 if not available. Never set it directly if the file_size and the duration are known as FFmpeg can compute it automatically.
+- `int64_t bit_rate`: Total stream bitrate in bit/s. 0 if not available. Never set it directly if the file_size and the duration are known as FFmpeg can compute it automatically.
 
-`AVSteam **streams`: Stream structure.
+- `AVSteam **streams`: Stream structure.
 
-`AVDictionary *metadata`: Metadata that applied to the whole file.
+- `AVDictionary *metadata`: Metadata that applied to the whole file.
 
 ##### Definition:
 
