@@ -1,8 +1,6 @@
 # Network Abstraction Layer
 
-
-
-The NAL is designed to enable simple and effective customization of the use of the VCL for a broad variety of systems. 
+The NAL is designed to enable simple and effective customization of the use of the VCL for a broad variety of systems. It formats the VCL representation of the video and provides header information to package that data for network transport.
 
 ##### NAL Units:
 
@@ -22,8 +20,14 @@ A parameter set contains important header information that can apply to a large 
 - Sequence Parameter Sets
 - Picture Parameter Sets
 
-
-
 ##### Access Units:
 
 The set of VCL and non-VCL NAL units that is associated with a single decoded picture is referred to as an access unit. 
+
+
+
+![NAL](./assets/H264-NAL.png)
+
+
+
+![syntax](./assets/syntax.png)
