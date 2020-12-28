@@ -156,5 +156,7 @@ The high-level syntax architecture used in h.264 has generally been retained, in
 
 - Dependent slice segments:
 
+  A dependent slice segment allows data associated with a particular wavefront entry point or tile to be carried in a separate NAL unit.
+  
   
 
