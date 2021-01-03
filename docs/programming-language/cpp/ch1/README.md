@@ -457,17 +457,12 @@ int main()
 {
     Sales_item item, total;
     if (std::cin >> total) {
-        int cnt = 1;
-        std::string currISBN = item.isbn();
         while (std::cin >> item) {
-            if (item.isbn() == currISBN) {
-                cnt += 1;
+            if (item.isbn() == total.isbn()) {
                 total = total + item;
             } else {
                 std::cout << total << std::endl;
-                currISBN = item.isbn();
                 total = item;
-                cnt = 1;
             }
         }
         std::cout << total << std::endl;
