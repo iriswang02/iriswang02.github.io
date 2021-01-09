@@ -481,7 +481,7 @@ There's no operator + for adding two iterators.
 
 ### Exercise 3.27
 
-Q: Assuming txt_size is a function that takes no arguments and returns an int value, which of the following definitions are illegal? Explain why.
+*Q: Assuming txt_size is a function that takes no arguments and returns an int value, which of the following definitions are illegal? Explain why.*
 
 ```c++
 unsigned buf_size = 1024;
@@ -617,7 +617,7 @@ while (*cp) { // traverse ca array
 
 *Q: In this section, we noted that it was not only illegal but meaningless to try to add two pointers. Why would adding two pointers be meaningless?*
 
-
+the sum of two memory doesn't mean anything
 
 
 
@@ -625,7 +625,13 @@ while (*cp) { // traverse ca array
 
 *Q: Write a program to compare two strings. Now write a program to compare the values of two C-style character strings.*
 
+```c++
+string s1, s2;
+if (s1 < s2) {...}
 
+const char ca1[], ca2[];
+if (strcmp(ca1, ca2) < 0) {...}
+```
 
 
 
@@ -633,7 +639,13 @@ while (*cp) { // traverse ca array
 
 *Q: Write a program to define two character arrays initialized from string literals. Now define a third character array to hold the concatenation of the two arrays. Use strcpy and strcat to copy the two arrays into the third.*
 
-
+```c++
+size_t new_size = strlen(cstr1) + strlen(" ") + strlen(cstr2) +1;
+char largeStr[new_size];
+strcpy(largeStr, ca1);
+strcat(largeStr, " ");
+strcat(largeStr, ca2);
+```
 
 
 
@@ -641,7 +653,10 @@ while (*cp) { // traverse ca array
 
 *Q: Write a program to initialize a vector from an array of ints.*
 
-
+```c++
+int int_arr[] = {0,1,2};
+vector<int> ivec(begin(int_arr), end(int_arr));
+```
 
 
 
@@ -649,7 +664,11 @@ while (*cp) { // traverse ca array
 
 *Q: Write a program to copy a vector of ints into an array of ints.*
 
-
+```c++
+vector<int> v{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+ int arr[10];
+ for (int i = 0; i < v.size(); ++i) arr[i] = v[i];
+```
 
 
 
@@ -657,7 +676,27 @@ while (*cp) { // traverse ca array
 
 *Q: Write three different versions of a program to print the elements of ia. One version should use a range for to manage the iteration, the other two should use an ordinary for loop in one case using subscripts and in the other using pointers. In all three programs write all the types directly. That is, do not use a type alias, auto, or decltype to simplify the code.*
 
+```c++
+int ia[2][5] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
+for (int (&row)[5] : ia) {
+    for (int &i: row) {
+        cout << i << " ";
+    }
+}
+
+for (size_t i = 0; i < 2; ++i) {
+    for (size_t j = 0; j < 5; ++j) {
+        cout << ia[i][j] << " ";
+    }
+}
+
+for (int (*row)[4] p=ia; p < ia+2; ++p) {
+    for (int *q = *p; q < *p+5; ++q) {
+        cout << *q << " ";
+    }
+}
+```
 
 
 
@@ -665,7 +704,20 @@ while (*cp) { // traverse ca array
 
 *Q: Rewrite the programs from the previous exercises using a type alias for the type of the loop control variables.*
 
+```c++
+using int_array = int[5];
+for (int_array &row : ia) {
+    for (int &i: row) {
+        cout << i << " ";
+    }
+}
 
+for (int_array *p = ia; p < ia+2; ++p) {
+    for (int *q = *p; q < *p+5; ++q) {
+        cout << *q << " ";
+    }
+}
+```
 
 
 
@@ -673,5 +725,17 @@ while (*cp) { // traverse ca array
 
 *Q: Rewrite the programs again, this time using auto.*
 
+```c++
+for (auto &row : ia) {
+    for (auto &i: row) {
+        cout << row[i] << " ";
+    }
+}
 
+for (auto p=ia; p < ia+2; ++p) {
+    for (auto q = *p; q < *p+5; ++q) {
+        cout << *q << " ";
+    }
+}
+```
 
