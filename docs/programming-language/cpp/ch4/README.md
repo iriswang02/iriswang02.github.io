@@ -357,7 +357,7 @@ for (int *ptr = ia, ix = 0;
     ++ix, ++ptr) { /* ... */ }
 ```
 
-
+ix represents index, *ptr represents the value.
 
 
 
@@ -365,7 +365,15 @@ for (int *ptr = ia, ix = 0;
 
 *Q: Using Table 4.12 (p. 166) explain what the following expression does:*
 
+```c++
+someValue ? ++x, ++y : --x, --y;
+```
 
+Because of the most lowest precedence of the comma operator, the expression is same as:
+
+```c++
+(someValue ? ++x, ++y : --x), --y
+```
 
 
 
@@ -373,7 +381,11 @@ for (int *ptr = ia, ix = 0;
 
 *Q: Given the variable definitions in this section, explain what conversions take place in the following expressions: (a) if (fval) (b) dval = fval + ival; (c) dval + ival \* cval; Remember that you may need to consider the associativity of the operators.*
 
-
+```c++
+if (fval) // fval -> bool
+dval = fval + ival; // ival -> fval -> double
+dval + ival * cval; // cval -> int -> double
+```
 
 
 
@@ -381,20 +393,46 @@ for (int *ptr = ia, ix = 0;
 
 *Q: Given the following definitions,*
 
-
+```c++
+char cval; int ival; unsigned int ui; float fval; double dval;
+cval = 'a' + 3; // 'a' -> int -> char.
+fval = ui - ival * 1.0; // ival-> double, ui -> double, double->float.
+dval = ui * fval; // ui -> float -> double.
+cval = ival + fval + dval;  // ival -> float -> double -> char(by truncation).
+```
 
 
 
 ### Exercise 4.36
 
-*Q: Assuming i is an int and d is a double write the expression i *= d so that it does integral, rather than floating-point, multiplication.*
+*Q: Assuming i is an int and d is a double write the expression i \*= d so that it does integral, rather than floating-point, multiplication.*
+
+```c++
+i *= static_cast<int>(d);
+```
 
 
 
+### Exercise 4.37
+
+*Q: Rewrite each of the following old-style casts to use a named cast:*
+
+```c++
+int i; double d; const string *ps; char *pc; void *pv;
+pv = (void*)ps; // pv = const_cast<string*>(ps); or pv = static_cast<void*>(const_cast<string*>(ps));
+i = int(*pc);   // i = static_cast<int>(*pc);
+pv = &d;        // pv = static_cast<void*>(&d);
+pc = (char*)pv; // pc = static_cast<char*>(pv);
+```
 
 
-Exercise 4.37
 
+### Exercise 4.38
 
+*Q: Explain the following expression:*
 
-Exercise 4.38
+```c++
+double slope = static_cast<double>(j/i);
+```
+
+j/i is an int(by truncation), then converted to double and assigned to slope.
