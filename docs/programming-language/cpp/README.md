@@ -2,7 +2,7 @@
 
  
 
-> Introduction 
+> C++ Primer
 
-Book: *C++ Primer* by Stanley B. Lippman, Josee Lajoie and Barbara E. Moo.
+by Stanley B. Lippman, Josee Lajoie and Barbara E. Moo.
 
