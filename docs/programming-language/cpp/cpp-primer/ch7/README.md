@@ -2,7 +2,7 @@
 
 ### Exercise 7.1
 
-*Q: Write a version of the transaction-processing program from § 1.6 (p. 24) using the Sales_data class you defined for the exercises in § 2.6.1 (p. 72).* 
+*Q: Write a version of the transaction-processing program from § 1.6 (p. 24) using the Sales_data class you defined for the exercises in § 2.6.1 (p. 72).*
 
 ```c++
 struct Sales_data
