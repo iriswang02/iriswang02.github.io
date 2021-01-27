@@ -4,5 +4,6 @@
 * [Chapter 4 Expressions](docs/programming-language/cpp/cpp-primer/ch4/)
 * [Chapter 5 Statements](docs/programming-language/cpp/cpp-primer/ch5/)
 * [Chapter 6 Functions](docs/programming-language/cpp/cpp-primer/ch6/)
-* [:leftwards_arrow_with_hook:](docs/programming-language/cpp)
+* [Chapter 7 Classes](docs/programming-language/cpp/cpp-primer/ch7/)
+* [:leftwards_arrow_with_hook:](docs/programming-language/cpp/)
 
