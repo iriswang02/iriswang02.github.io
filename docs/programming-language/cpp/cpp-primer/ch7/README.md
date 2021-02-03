@@ -494,11 +494,18 @@ myScreen.display(cout);
 cout << "\n";
 ```
 
+```
+XXXXXXXXXXXXXXXXXXXX#XXXX
+XXXXXXXXXXXXXXXXXXXX#XXXX
+```
+
 
 
 ### Exercise 7.28
 
 *Q: What would happen in the previous exercise if the return type of move, set, and display was Screen rather than Screen&?*
+
+every function returns a rvalue, myScreen is not modified, so the second row doesnt have '#'
 
 
 
@@ -512,17 +519,44 @@ cout << "\n";
 
 *Q: It is legal but redundant to refer to members through the this pointer. Discuss the pros and cons of explicitly using the this pointer to access members.*
 
+pros: explicit, avoid misunderstanding
+
+cons: redundant
+
 
 
 ### Exercise 7.31
 
 *Q: Define a pair of classes X and Y, in which X has a pointer to Y, and Y has an object of type X.*
 
+```c++
+class Y;
+class X {
+    Y* pointer;
+};
+class Y {
+    X object;
+};
+```
+
 
 
 ### Exercise 7.32
 
 *Q: Define your own versions of Screen and Window_mgr in which clear is a member of Window_mgr and a friend of Screen.*
+
+```c++
+class Screen;
+class Window_mgr {
+    void clear(ScreenIndex);
+}
+class Screen {
+    friend void Window_mgr::clear(ScreenIndex);
+}
+inline void Window_mgr::clear(ScreenIndex i) {
+    ...
+}
+```
 
 
 
@@ -531,7 +565,7 @@ cout << "\n";
 *Q: What would happen if we gave Screen a size member defined as follows? Fix any problems you identify.*
 
 ```c++
-pos Screen::size() const {
+pos Screen::size() const { // Screen::pos
 	return height * width;
 }
 ```
@@ -542,6 +576,8 @@ pos Screen::size() const {
 
 *Q: What would happen if we put the typedef of pos in the Screen class on page 285 as the last line in the class?*
 
+identifier "pos" is undefined
+
 
 
 ### Exercise 7.35
@@ -550,17 +586,21 @@ pos Screen::size() const {
 
 ```c++
 typedef string Type;
-Type initVal();
+Type initVal(); // string
 class Exercise {
 public:
     typedef double Type;
-    Type setVal(Type);
-    Type initVal();
+    Type setVal(Type); // double
+    Type initVal(); // double
+    // Type initVal() { // define
+    // ...
+    // }
 private:
 	int val;
 };
-Type Exercise::setVal(Type parm) {
-    val = parm + initVal();
+Type Exercise::setVal(Type parm) { // first string, second double
+// Exercise::Type Exercise::setVal(Type parm) {
+    val = parm + initVal(); // member function
     return val;
 }
 ```
@@ -573,7 +613,7 @@ Type Exercise::setVal(Type parm) {
 
 ```c++
 struct X {
-    X (int i, int j): base(i), rem(base % j) { }
+    X (int i, int j): base(i), rem(base % j) { } // rem is initialized first, rem(i%j)
     int rem, base;
 };
 ```
@@ -585,10 +625,10 @@ struct X {
 *Q: Using the version of Sales_data from this section, determine which constructor is used to initialize each of the following variables and list the values of the data members in each object:*
 
 ```c++
-Sales_data first_item(cin);
+Sales_data first_item(cin); // istream&
 int main() {
-    Sales_data next;
-    Sales_data last("9-999-99999-9");
+    Sales_data next; // string s="" (default)
+    Sales_data last("9-999-99999-9"); // string 
 }
 ```
 
@@ -598,11 +638,19 @@ int main() {
 
 *Q: We might want to supply cin as a default argument to the constructor that takes an istream&. Write the constructor declaration that uses cin as a default argument.*
 
+```c++
+Sales_data(std::istream& is = std::cin) {
+    read(is, *this);
+}
+```
+
 
 
 ### Exercise 7.39
 
 *Q: Would it be legal for both the constructor that takes a string and the one that takes an istream& to have default arguments? If not, why not?*
+
+illegal, the complier doesnt know which one to use.
 
 
 
@@ -625,17 +673,38 @@ int main() {
 
 *Q: Rewrite your own version of the Sales_data class to use delegating constructors. Add a statement to the body of each of the constructors that prints a message whenever it is executed. Write declarations to construct a Sales_data object in every way possible. Study the output until you are certain you understand the order of execution among delegating constructors.*
 
+```c++
+Sales_data(): Sales_data("", 0, 0) {}
+Sales_data(std::string& s): Sales_Data(s, 0, 0) {}
+```
+
 
 
 ### Exercise 7.42
 
 *Q: For the class you wrote for exercise 7.40 in § 7.5.1 (p. 291), decide whether any of the constructors might use delegation. If so, write the delegating constructor(s) for your class. If not, look at the list of abstractions and choose one that you think would use a delegating constructor. Write the class definition for that abstraction.*
 
+```c++
+class Employee {
+    string name;
+    int age;
+    Employee(string name_in, int age_in): name(name_in), age(age_in) {}
+    Employee(): Employee("dagongren", 35) {}
+}
+```
+
 
 
 ### Exercise 7.43
 
 *Q: Assume we have a class named NoDefault that has a constructor that takes an int, but has no default constructor. Define a class C that has a member of type NoDefault. Define the default constructor for C.*
+
+```c++
+class C {
+    NoDefault mem;
+    C(): mem(0) {}
+}
+```
 
 
 
@@ -647,27 +716,39 @@ int main() {
 vector<NoDefault> vec(10);
 ```
 
+illegal, NoDefault doesnt have default constructor.
+
 
 
 ### Exercise 7.45
 
 *Q: What if we defined the vector in the previous execercise to hold objects of type C?*
 
+legal, C has default constructor.
+
 
 
 ### Exercise 7.46
 
 *Q: Which, if any, of the following statements are untrue? Why?*
-*(a) A class must provide at least one constructor.*
-*(b) A default constructor is a constructor with an empty parameter list.*
-*(c) If there are no meaningful default values for a class, the class should not provide a default constructor.*
-*(d) If a class does not define a default constructor, the compiler generates one that initializes each data member to the default value of its associated type.*
+*(a) A class must provide at least one constructor.* [untrue, synthesized default constructor]
+*(b) A default constructor is a constructor with an empty parameter list.* [untrue, no initializer is supplied]
+*(c) If there are no meaningful default values for a class, the class should not provide a default constructor.* [untrue]
+*(d) If a class does not define a default constructor, the compiler generates one that initializes each data member to the default value of its associated type.* [untrue, only if the class does not explicitly define any constructors]
 
 
 
 ### Exercise 7.47
 
 *Q: Explain whether the Sales_data constructor that takes a string should be explicit. What are the benefits of making the constructor explicit? What are the drawbacks?*
+
+pros:
+
+- avoid errors of implicit conversion
+
+cons:
+
+- it can be used only with the direct form of initialization
 
 
 
@@ -683,7 +764,7 @@ Sales_data item2("9-999-99999-9");
 
 *What happens if the Sales_data constructors are explicit?*
 
-
+both are legal.
 
 
 
@@ -692,9 +773,9 @@ Sales_data item2("9-999-99999-9");
 *Q: For each of the three following declarations of combine, explain what happens if we call i.combine(s), where i is a Sales_data and s is a string:*
 
 ```c++
-(a) Sales_data &combine(Sales_data);
-(b) Sales_data &combine(Sales_data&);
-(c) Sales_data &combine(const Sales_data&) const;
+(a) Sales_data &combine(Sales_data); // s is implicitly converted to Sales_data
+(b) Sales_data &combine(Sales_data&); // error, cannot pass a temporary to a non-const parameter??
+(c) Sales_data &combine(const Sales_data&) const; // error, can pass a temporary to a const parameter, but the output is also a const parameter which is not expected.
 ```
 
 
@@ -703,13 +784,31 @@ Sales_data item2("9-999-99999-9");
 
 *Q: Determine whether any of your Person class constructors should be explicit.*
 
+```c++
+class Person {
+    friend std::istream &read(std::istream &is, Person &person);
+    friend std::ostream &print(std::ostream &os, const Person &person);
 
+public:
+    Person() = default;
+    Person(const std::string sname, const std::string saddr):name(sname), address(saddr){ }
+    explicit Person(std::istream &is){ read(is, *this); }
+
+    std::string getName() const { return name; }
+    std::string getAddress() const { return address; }
+private:
+    std::string name;
+    std::string address;
+};
+```
 
 
 
 ### Exercise 7.51
 
 *Q: Why do you think vector defines its single-argument constructor as explicit, but string does not?*
+
+to avoid ambiguity
 
 
 
@@ -718,7 +817,7 @@ Sales_data item2("9-999-99999-9");
 *Q: Using our first version of Sales_data from § 2.6.1 (p. 72), explain the following initialization. Identify and fix any problems.*
 
 ```c++
-Sales_data item = {"978-0590353403", 25, 15.99};
+Sales_data item = {"978-0590353403", 25, 15.99}; // Sales_data is not an aggregate class. In-class initializers should be removed.
 ```
 
 
@@ -727,11 +826,31 @@ Sales_data item = {"978-0590353403", 25, 15.99};
 
 *Q: Define your own version of Debug.*
 
+```c++
+class Debug {
+public:
+    constexpr Debug(bool b = true) : hw(b), io(b), other(b) { }
+    constexpr Debug(bool h, bool i, bool o) : hw(h), io(i), other(o) { }
+    constexpr bool any() { return hw || io || other; }
+    
+    void set_hw(bool b) { hw = b; }
+    void set_io(bool b) { io = b; }
+    void set_other(bool b) { hw = b; }
+    
+private:
+    bool hw;        // hardware errors other than IO errors
+    bool io;        // I/O error
+    bool other;     // the others
+};
+```
+
 
 
 ### Exercise 7.54
 
 *Q: Should the members of Debug that begin with set_ be declared as constexpr? If not, why not?*
+
+no, a constexpr function can only have return statement.
 
 
 
@@ -739,17 +858,41 @@ Sales_data item = {"978-0590353403", 25, 15.99};
 
 *Q: Is the Data class from § 7.5.5 (p. 298) a literal class? If not, why not? If so, explain why it is literal.*
 
+no, string is not literal type. (`std::is_literal_type`)
+
 
 
 ### Exercise 7.56
 
 *Q: What is a static class member? What are the advantages of static members? How do they differ from ordinary members?*
 
+A class member that is associated with the class, rather than with individual objects of the class type.
+
+The static member can be associated with the class, not with each individual object.
+
+a static data member can have incomplete type.
+
 
 
 ### Exercise 7.57
 
 *Q: Write your own version of the Account class.*
+
+```c++
+class Account {
+public:
+    void calculate() { amount += amount * interestRate; }
+    static double rate() { return interestRate; }
+    static void rate(double rate_in) {interestRate = rate_in;}
+    
+private:
+    std::string owner;
+    double amount;
+    static double interestRate;
+    static double initRate();
+};
+double Account::interestRate = initRate();
+```
 
 
 
@@ -763,11 +906,11 @@ class Example {
 public:
 static double rate = 6.5;
 static const int vecSize = 20;
-static vector<double> vec(vecSize);
+static vector<double> vec(vecSize); // static vector<double> vec; we must define and initialize each static data member outside the class body.
 };
 // example.C
 #include "example.h"
 double Example::rate;
-vector<double> Example::vec;
+vector<double> Example::vec; // Example::vec(Example::vecSize)
 ```
 
